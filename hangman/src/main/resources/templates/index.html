@@ -1,12 +1,51 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Home</title>
+    <title>Hangman Game - Home</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        .btn {
+            display: inline-block;
+            margin: 10px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
-    <h1>Welcome to Hangman Game</h1>
-    <a href="/rooms/create-room">Create Room</a>
-    <a href="/rooms/join-room">Join Room</a>
+    <div class="container">
+        <h1>Welcome to Hangman Game</h1>
+        <p>Select an option below to start playing</p>
+        <a href="/rooms/create-room" class="btn">Create Room</a>
+        <a href="/rooms/join-room" class="btn">Join Room</a>
     <a href="/leaderboard">Leaderboard</a>
+        
+    </div>
 </body>
 </html>
+
+    

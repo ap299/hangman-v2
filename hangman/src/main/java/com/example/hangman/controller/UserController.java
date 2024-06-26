@@ -61,8 +61,5 @@ public class UserController {
         return "index"; // This maps to src/main/resources/templates/index.html
     }
     
-    @GetMapping("/")
-    public String redirectToLogin() {
-        return "redirect:/users/login";
-    }
+
 }
