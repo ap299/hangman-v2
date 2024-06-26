@@ -1,46 +1,74 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Game</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.0/sockjs.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <title>Hangman Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .game-container {
+            max-width: 600px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center;
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        .word-container {
+            margin-bottom: 20px;
+        }
+        .masked-word {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        .incorrect-guesses {
+            margin-bottom: 20px;
+        }
+        .guess-input {
+            padding: 10px;
+            width: 80%;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 18px;
+        }
+        .guess-button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-size: 16px;
+        }
+        .guess-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
-    <h1>Hangman Game</h1>
-    <div id="gameState">
-        <!-- Game state will be updated here -->
+    <div class="game-container">
+        <h1>Hangman Game</h1>
+        <div class="word-container">
+            <p class="masked-word">Masked Word: <strong>*****</strong></p>
+            <p class="incorrect-guesses">Incorrect Guesses: <strong>0/6</strong></p>
+        </div>
+        <form action="/game/make-guess" method="post">
+            <input type="hidden" name="roomId" value="roomId_here"><!-- Replace with Thymeleaf dynamic value -->
+            <input type="text" class="guess-input" name="guess" placeholder="Enter your guess" autocomplete="off" required>
+            <button type="submit" class="guess-button">Guess</button>
+        </form>
     </div>
-    <form id="guessForm">
-        <input type="text" id="guess" maxlength="1"/>
-        <button type="submit">Guess</button>
-    </form>
-
-    <script>
-        var stompClient = null;
-
-        function connect() {
-            var socket = new SockJS('/ws');
-            stompClient = Stomp.over(socket);
-            stompClient.connect({}, function (frame) {
-                stompClient.subscribe('/topic/updates', function (gameState) {
-                    showGameState(JSON.parse(gameState.body));
-                });
-            });
-        }
-
-        function showGameState(gameState) {
-            document.getElementById('gameState').innerHTML =
-                'Word: ' + gameState.maskedWord + '<br>' +
-                'Incorrect guesses: ' + gameState.incorrectGuesses + '/' + gameState.maxIncorrectGuesses;
-        }
-
-        document.getElementById('guessForm').addEventListener('submit', function (e) {
-            e.preventDefault();
-            var guess = document.getElementById('guess').value;
-            stompClient.send("/app/game/guess", {}, JSON.stringify({'roomId': roomId, 'character': guess}));
-        });
-
-        connect();
-    </script>
 </body>
 </html>
