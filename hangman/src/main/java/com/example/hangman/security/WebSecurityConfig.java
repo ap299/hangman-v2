@@ -12,7 +12,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -24,22 +23,21 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(authorize -> authorize
-                .requestMatchers("/", "/users/register", "/users/login", "/css/**", "/js/**","/h2-console/**").permitAll()
+                .requestMatchers("/", "/register", "/login", "/css/**", "/js/**").permitAll()
                 .anyRequest().authenticated()
             )
             .formLogin(form -> form
-                .loginPage("/users/login")
+                .loginPage("/login")
                 .usernameParameter("username")
                 .passwordParameter("password")
-                .defaultSuccessUrl("/users/index", true)
-                .failureUrl("/users/login?error=true")
+                .defaultSuccessUrl("/index", true)
+                .failureUrl("/error")
                 .permitAll()
             )
             .logout(logout -> logout
                 .permitAll()
             )
-            .csrf(csrf -> csrf.disable())
-            .headers().frameOptions().disable(); // Disable CSRF for simplicity in development, consider enabling in production.
+            .csrf(csrf -> csrf.disable());
 
         return http.build();
     }

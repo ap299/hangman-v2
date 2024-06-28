@@ -2,58 +2,15 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Hangman Game - Register</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
-        .container {
-            max-width: 400px;
-            margin: 50px auto;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        h2 {
-            text-align: center;
-        }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-        }
-        .form-group input {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        .form-group button {
-            width: 100%;
-            padding: 10px;
-            background-color: #28a745;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .form-group button:hover {
-            background-color: #218838;
-        }
-        .login-link {
-            display: block;
-            text-align: center;
-            margin-top: 15px;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
 </head>
 <body>
     <div class="container">
         <h2>Hangman Game</h2>
         <h3>Register</h3>
-        <form action="/users/register" method="post" th:object="${user}">
+        <form action="/register" method="post" th:object="${user}">
+            <div th:if="${error}" class="text-danger" th:text="${error}"></div>
+            <div th:if="${success}" class="text-success" th:text="${success}"></div>
             <div class="form-group">
                 <label>Username:</label>
                 <input type="text" name="username" th:field="*{username}" required minlength="3" maxlength="20" pattern="^[a-zA-Z0-9]+$" title="Username must be 3-20 characters long and contain only letters and numbers" />
@@ -69,7 +26,7 @@
             </div>
         </form>
         <div class="login-link">
-            <a href="/users/login">Already have an account? Login here</a>
+            <a href="/login">Already have an account? Login here</a>
         </div>
     </div>
 </body>
