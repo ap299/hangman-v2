@@ -53,14 +53,16 @@
     <div class="container">
         <h2>Hangman Game</h2>
         <h3>Login</h3>
-        <form action="/users/login" method="post">
+        <form action="/users/login" method="post" th:object="${user}">
             <div class="form-group">
                 <label>Username:</label>
-                <input type="text" name="username" required/>
+                <input type="text" name="username" th:field="*{username}" required minlength="3" maxlength="20" pattern="^[a-zA-Z0-9]+$" title="Username must be 3-20 characters long and contain only letters and numbers" />
+                <div th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="text-danger"></div>
             </div>
             <div class="form-group">
                 <label>Password:</label>
-                <input type="password" name="password" required/>
+                <input type="password" name="password" th:field="*{password}" required minlength="8" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$" title="Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character" />
+                <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="text-danger"></div>
             </div>
             <div class="form-group">
                 <button type="submit">Login</button>
@@ -69,6 +71,7 @@
         <div class="register-link">
             <a href="/users/register">Don't have an account? Register here</a>
         </div>
+        <div th:if="${error}" class="text-danger" th:text="${error}"></div>
     </div>
 </body>
 </html>
